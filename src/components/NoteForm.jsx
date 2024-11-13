@@ -99,7 +99,7 @@ function NoteForm() {
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                         ></textarea>
-                        <button type="submit">Tambah Cerita</button>
+                        <button type="submit">Tambah Cerita Boy</button>
                     </form>
                 </div>
 
