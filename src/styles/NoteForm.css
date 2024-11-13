@@ -1,0 +1,90 @@
+    .container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding:90px;
+        position: relative;
+        min-height: 100vh;
+        /* Agar kontainer mengisi seluruh tinggi layar */
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 300px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        /* Form tetap di kanan atas */
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+    }
+
+    .notes-container {
+        display: flex;
+        flex-wrap: wrap;
+        /* Membuat card pindah ke baris baru saat ruang penuh */
+        gap: 20px;
+        /* Memberikan jarak antar card */
+        margin-left: 20px;
+        /* Menambahkan margin kiri untuk memberi ruang */
+        margin-top: 20px;
+        /* Memberikan jarak agar tidak menempel pada form */
+        flex: 1;
+        justify-content: flex-start;
+        width: calc(100% - 340px);
+        /* Mengurangi ruang yang digunakan agar card lebih ke kiri */
+    }
+
+    .note-card {
+        width: 280px;
+        /* Lebar card tetap */
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 12px;
+        box-sizing: border-box;
+    }
+        /* Form input style */
+        input[type="text"],
+        textarea {
+            width: 100%;
+            margin-bottom: 15px;
+            padding-right: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            color: black;
+            background-color: #ffffff;
+            transition: border-color 0.3s ease;
+        }
+    
+        /* Input and textarea focus effect */
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: #5c67f2;
+            outline: none;
+            box-shadow: 0 0 8px rgba(92, 103, 242, 0.3);
+        }
+    
+        /* Button style */
+        button {
+            background-color: black ;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+    
+        button:hover {
+            background-color: #3c45cc;
+        }
