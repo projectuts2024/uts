@@ -3,6 +3,7 @@ import { supabase } from '../services/supabaseClient';
 import '../styles/NoteForm.css';
 import '../styles/NoteCard.css';
 import NoteCard from './NoteCard';
+import Navbar from './Navbar';
 
 function NoteForm() {
     const [title, setTitle] = useState('');
@@ -27,11 +28,9 @@ function NoteForm() {
         } else {
             if (data && data.length > 0) {
                 setNotes((prevNotes) => [data[0], ...prevNotes]);
-            } else {
-                console.error('No data returned after insert');
             }
         }
-
+        getData();
         setTitle('');
         setContent('');
     };
@@ -47,16 +46,16 @@ function NoteForm() {
         }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data, error } = await supabase.from('notes').select('*').order('created_ats', { ascending: false });
-            if (error) {
-                console.error('Error fetching notes:', error);
-            } else {
-                setNotes(data); 
-            }
-        };
+    const getData = async () => {
+        const { data, error } = await supabase.from('notes').select('*').order('created_ats', { ascending: false });
+        if (error) {
+            console.error('Error fetching notes:', error);
+        } else {
+            setNotes(data);
+        }
+    };
 
+    useEffect(() => {
         const channel = supabase.channel('notes-channel');
         const subscription = channel
             .on('postgres_changes', { schema: 'public', table: 'notes' }, (payload) => {
@@ -78,45 +77,49 @@ function NoteForm() {
             })
             .subscribe();
 
-        fetchData(); 
+        getData();
 
         return () => {
-            channel.unsubscribe();  
+            channel.unsubscribe();
         };
-    }, []);  
-        return (
-            <div className="container">
-                <div className="form-container">
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                        <textarea
-                            placeholder="Content"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                        ></textarea>
-                        <button type="submit">Tambah Cerita Boy</button>
-                    </form>
-                </div>
+    }, []);
 
-                <div className="notes-container">
-                    {notes.map((note) => (
-                        <NoteCard
-                            key={note.id}
-                            id={note.id}
-                            title={note.title}
-                            content={note.content}
-                            createdAt={note.created_ats}
-                            onDelete={handleDelete} 
-                        />
-                    ))}
-                </div>
+    return (
+        <div className="container">
+            <Navbar />
+
+            <div className="notes-container">
+                {notes.map((note) => (
+                    <NoteCard
+                        key={note.id}
+                        id={note.id}
+                        title={note.title}
+                        content={note.content}
+                        createdAt={note.created_ats}
+                        onDelete={handleDelete}
+                    />
+                ))}
             </div>
-        );
 
+            {/* Form dipindahkan ke bawah */}
+            <div className="form-container">
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Judul Cerita"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <textarea
+                        placeholder="Deskripsi Singkat"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                    ></textarea>
+                    <button type="submit">Tambah Cerita Boy</button>
+                </form>
+            </div>
+        </div>
+    );
 }
+
 export default NoteForm;

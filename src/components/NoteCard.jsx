@@ -11,7 +11,12 @@ function NoteCard({ id, title, content, createdAt, onDelete }) {
             <div className="note-title">{title}</div>
             <div className="note-content">{content}</div>
             <div className="note-date">{new Date(createdAt).toLocaleString()}</div>
-            <button onClick={handleDelete} className="delete-btn">Hapus</button>
+            <div className="note-actions">
+                <i
+                    className="fas fa-trash-alt delete-icon"
+                    onClick={handleDelete}
+                ></i>
+            </div>
         </div>
     );
 }
